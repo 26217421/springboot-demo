@@ -25,7 +25,7 @@ public class UserController {
      */
     @GetMapping("/getUserAll")
     private List<SysUserEntity> getUsers() {
-        System.out.println("查询主库");
+        System.out.println("查询副库");
         return userService.queryUserAll();
     }
 

@@ -42,7 +42,7 @@ public class DataSourceConfig {
      */
     @Bean
     @ConfigurationProperties(prefix = "spring.datasource.slave")
-    public DataSource slaver() {
+    public DataSource slave() {
         return DruidDataSourceBuilder.create().build();
     }
 
