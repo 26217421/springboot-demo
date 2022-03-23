@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTO Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.wbw.example.dao.SysUserDao">
+<mapper namespace="com.wbw.demo.dao.SysUserDao">
     <!--查询所有用户信息-->
-    <select id="queryUserAll" resultType="org.wbw.example.entity.SysUserEntity">
+    <select id="queryUserAll" resultType="com.wbw.demo.entity.SysUserEntity">
         SELECT
         ur.*
         FROM
@@ -13,7 +13,7 @@
     </select>
 
     <!--根据用户userId查询用户信息-->
-    <select id="queryUserInfo" resultType="org.wbw.example.entity.SysUserEntity">
+    <select id="queryUserInfo" resultType="com.wbw.demo.entity.SysUserEntity">
         SELECT
         ur.*
         FROM
@@ -23,7 +23,7 @@
         AND ur.user_id = #{userId}
     </select>
 
-    <update id="updateUserInfo" parameterType="org.wbw.example.entity.SysUserEntity">
+    <update id="updateUserInfo" parameterType="com.wbw.demo.entity.SysUserEntity">
         UPDATE sys_user u
         <set>
             <if test="username != null">
