@@ -17,6 +17,10 @@ spring:
       password: 262174rty
       driver-class-name: com.mysql.cj.jdbc.Driver
 
+  redis:
+    host: remotehost
+    port: 6379
+
 #配置Mybatis
 mybatis:
   type-aliases-package: org.wbw.example.entity
