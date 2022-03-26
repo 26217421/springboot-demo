@@ -2,6 +2,8 @@ server:
   port: 8081
 
 spring:
+  cache:
+    type: redis
   data:
     mongodb:
       uri: mongodb://admin:123456@remotehost:27017/admin
@@ -20,6 +22,8 @@ spring:
   redis:
     host: remotehost
     port: 6379
+  aop:
+    auto: true
 
 #配置Mybatis
 mybatis:
@@ -32,4 +36,4 @@ mybatis:
 #打印SQL日志
 logging:
   level:
-    com.niaobulashi.dao: DEBUG
+    com.wbw.demo.dao: DEBUG

@@ -23,7 +23,7 @@ public class UserController {
      * @return
      */
     @GetMapping("/getUserAll")
-    private List<SysUserEntity> getUsers() {
+    public List<SysUserEntity> getUsers() {
         System.out.println("查询副库");
         return userService.queryUserAll();
     }
@@ -33,7 +33,7 @@ public class UserController {
      * @return
      */
     @GetMapping("/getUserById")
-    private List<SysUserEntity> getUserById(@RequestParam(value = "userId", required = false) Long userId) {
+    public List<SysUserEntity> getUserById(@RequestParam(value = "userId", required = false) Long userId) {
         return userService.queryUserInfo(userId);
     }
 

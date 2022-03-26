@@ -26,7 +26,7 @@ import java.util.Map;
  * @date 2021-9-11 18:04
  */
 @Configuration
-@MapperScan(basePackages = "org.wbw.example.dao", sqlSessionTemplateRef = "sqlTemplate")
+@MapperScan(basePackages = "com.wbw.demo.dao", sqlSessionTemplateRef = "sqlTemplate")
 public class DataSourceConfig {
     /**
      * 主库
@@ -48,11 +48,21 @@ public class DataSourceConfig {
 
 
     /**
+     * 获取application.ymp中mybatis相关配置
+     */
+    @Bean
+    @ConfigurationProperties(prefix = "mybatis.configuration")
+    public org.apache.ibatis.session.Configuration globalConfiguration() {
+        return new org.apache.ibatis.session.Configuration();
+    }
+
+
+    /**
      * 实例化数据源路由
      */
     @Bean
     public DataSourceRouter dynamicDB(@Qualifier("master") DataSource masterDataSource,
-                                      @Autowired(required = false) @Qualifier("slaver") DataSource slaveDataSource) {
+                                      @Autowired(required = false) @Qualifier("slave") DataSource slaveDataSource) {
         DataSourceRouter dynamicDataSource = new DataSourceRouter();
         Map<Object, Object> targetDataSources = new HashMap<>();
         targetDataSources.put(DataSourceEnum.MASTER.getDataSourceName(), masterDataSource);
@@ -77,6 +87,7 @@ public class DataSourceConfig {
         bean.setMapperLocations(
                 new PathMatchingResourcePatternResolver().getResources("classpath*:mapper/*Mapper.xml"));
         bean.setDataSource(dynamicDataSource);
+        bean.setConfiguration(globalConfiguration());
         return bean.getObject();
     }
 

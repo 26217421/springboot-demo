@@ -20,11 +20,13 @@ public interface SysUserDao {
 
     /**
      * 查询所有用户信息
+     * @return 返回所有用户
      */
     List<SysUserEntity> queryUserAll();
 
     /**
      * 根据userId更新用户的邮箱和手机号
+     * @param user 用户
      * @return 更新行数
      */
     int updateUserInfo(SysUserEntity user);
