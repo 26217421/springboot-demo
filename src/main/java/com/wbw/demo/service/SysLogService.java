@@ -13,9 +13,17 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 public class SysLogService {
-    public boolean save(SysLogEntity sysLogEntity){
-        // 这里就不做具体实现了
-        log.info(sysLogEntity.getParams());
-        return true;
+    public void save(SysLogEntity sysLogEntity){
+        log.info("========================================== Start ==========================================");
+        log.info("URL            : {}", sysLogEntity.getUrl());
+        log.info("Description    : {}", sysLogEntity.getRemark());
+        log.info("HTTP Method    : {}", sysLogEntity.getHttpMethod());
+        log.info("Class Method   : {}.{}", sysLogEntity.getClassName(), sysLogEntity.getMethodName());
+        log.info("IP             : {}", sysLogEntity.getIp());
+        log.info("Request Args   : {}", sysLogEntity.getParams());
+        log.info("Response Args  : {}", sysLogEntity.getResult());
+        log.info("Time-Consuming : {} ms",sysLogEntity.getExeuTime());
+        log.info("=========================================== End ===========================================");
+
     }
 }

@@ -1,6 +1,7 @@
 package com.wbw.demo.dao;
 
 import com.wbw.demo.entity.SysUserEntity;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 

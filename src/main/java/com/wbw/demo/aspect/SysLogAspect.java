@@ -1,5 +1,7 @@
 package com.wbw.demo.aspect;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -10,12 +12,16 @@ import org.springframework.stereotype.Component;
 import com.wbw.demo.annotation.SysLog;
 import com.wbw.demo.annotation.entity.SysLogEntity;
 import com.wbw.demo.service.SysLogService;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author wbw
@@ -44,22 +50,24 @@ public class SysLogAspect {
         long time = System.currentTimeMillis() - beginTime;
         try {
             //实现保存日志逻辑
-            saveLog(point, time);
+            saveLog(point, time, result);
         } catch (Exception ignored) {
 
         }
         return result;
     }
 
-    private void saveLog(ProceedingJoinPoint joinPoint, long time) {
-
+    private void saveLog(ProceedingJoinPoint joinPoint, long time, Object result) {
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = Objects.requireNonNull(attributes).getRequest();
         // 获取方法的关键信息，类，包
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
         SysLogEntity sysLogEntity = new SysLogEntity();
         sysLogEntity.setExeuTime(time);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        sysLogEntity.setCreateDate(dateFormat.format(new Date()));
+        sysLogEntity.setIp(request.getRemoteAddr());
+        sysLogEntity.setHttpMethod(request.getMethod());
+        sysLogEntity.setUrl(request.getRequestURL().toString());
         SysLog sysLog = method.getAnnotation(SysLog.class);
         if(sysLog != null) {
             //注解上的描述
@@ -73,12 +81,9 @@ public class SysLogAspect {
         //请求的参数
         Object[] args = joinPoint.getArgs();
         try {
-            List<String> list = new ArrayList<String>();
-            for (Object o : args) {
-                list.add(o.toString());
-            }
-            sysLogEntity.setParams(list.toString());
-        } catch (Exception e){
+            sysLogEntity.setResult(new ObjectMapper().writeValueAsString(result));
+            sysLogEntity.setParams(new ObjectMapper().writeValueAsString(args));
+        } catch (JsonProcessingException ignore) {
 
         }
         sysLogService.save(sysLogEntity);

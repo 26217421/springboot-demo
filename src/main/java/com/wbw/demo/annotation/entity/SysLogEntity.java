@@ -15,5 +15,8 @@ public class SysLogEntity {
     private String params;
     private Long exeuTime;
     private String remark;
-    private String createDate;
+    private String result;
+    private String ip;
+    private String httpMethod;
+    private String url;
 }
