@@ -1,5 +1,6 @@
 package com.wbw.demo.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import com.wbw.demo.entity.SysUserEntity;
@@ -13,6 +14,7 @@ import java.util.List;
  * @description: TODO
  * @date 2021-9-13 0:51
  */
+@Slf4j
 @RestController
 public class UserController {
     @Autowired
@@ -24,7 +26,7 @@ public class UserController {
      */
     @GetMapping("/getUserAll")
     public List<SysUserEntity> getUsers() {
-        System.out.println("查询副库");
+        log.info("查询副库");
         return userService.queryUserAll();
     }
 

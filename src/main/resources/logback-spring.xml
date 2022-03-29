@@ -21,13 +21,14 @@
     <!--  日志发送至logstash  -->
     <appender name="logstash" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
         <!-- logstash的服务器地址和通信端口 -->
-        <destination>remotehost:5043</destination>
+        <destination>server100:5043</destination>
         <!-- encoder is required -->
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <!-- 在elasticsearch的index中追加applicationName字段  -->
             <customFields>{"applicationName":"${applicationName}"}</customFields>
         </encoder>
     </appender>
+
 
     <!-- 按照每天生成日志文件 -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -43,12 +44,13 @@
         </encoder>
         <!--日志文件最大的大小-->
         <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <MaxFileSize>10MB</MaxFileSize>
+            <MaxFileSize>100MB</MaxFileSize>
         </triggeringPolicy>
     </appender>
+    <logger name="com.wbw.demo.dao" level="DEBUG"/>
 
     <!-- 日志输出级别 -->
-    <root level="INFO">
+    <root level="DEBUG">
         <appender-ref ref="logstash"/>
         <appender-ref ref="console"/>
     </root>
