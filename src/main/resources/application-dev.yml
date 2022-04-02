@@ -2,6 +2,10 @@ server:
   port: 8081
 
 spring:
+  mvc:
+    view:
+      suffix: html
+
   cache:
     type: redis
   data:
@@ -24,6 +28,8 @@ spring:
     port: 6379
   aop:
     auto: true
+  session:
+    store-type: redis
 
 #配置Mybatis
 mybatis:
@@ -32,9 +38,23 @@ mybatis:
   configuration:
     # 开启驼峰命名转换，如：Table(create_time) -> Entity(createTime)。不需要我们关心怎么进行字段匹配，mybatis会自动识别`大写字母与下划线`
     map-underscore-to-camel-case: true
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    log-impl: org.apache.ibatis.logging.slf4j.Slf4jImpl
 #打印SQL日志
 logging:
   config: classpath:logback-spring.xml
   level:
+    com.wbw.demo.config: debug
     com.wbw.demo.dao: debug
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: *
+
+  server:
+    port: 10000
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
