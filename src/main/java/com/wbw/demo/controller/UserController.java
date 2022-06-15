@@ -44,7 +44,7 @@ public class UserController {
      * @return
      */
     @PostMapping("/upUserById")
-    private String updateUserById(@RequestParam(value = "userId") Long userId, @RequestParam
+    public String updateUserById(@RequestParam(value = "userId") Long userId, @RequestParam
             (value = "userId") String username) {
         SysUserEntity user = new SysUserEntity();
         user.setUserId(userId);
